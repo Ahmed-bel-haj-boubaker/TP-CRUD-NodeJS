@@ -25,8 +25,44 @@ async function findAll(req, res) {
       res.status(500).json({ error: 'Internal server error' });
     }
   }
+
+  async function createUser(req,res){
+
+    try {
+      const user = await userModel.create(req.body);
+      res.status(200).json({ user: user , msg: " user created" }); 
+    } catch (error) {
+      res.status(404).json({ error:error});
+      
+    }
+  }
+
+  async function updateUser(req,res){
+    try {
+      const id = req.params.id;
+      console.log(id)
+      const updatedUser= await userModel.findOneAndUpdate(id);
+      res.status(200).json({ user: updatedUser , msg: " user updated" }); 
+
+    } catch (error) {
+      res.status(404).json({ error:error});
+    }
+  }
+
+  async function deleteUser(req,res){
+    try {
+      const id = req.params.id;
+      console.log(id)
+      const deletedUser= await userModel.findOneAndDelete(id);
+      res.status(200).json({ user: deletedUser , msg: " user deleted" }); 
+      
+    } catch (error) {
+      res.status(404).json({ error:error});
+
+    }
+  }
   
   
   module.exports = {
-    findAll,findByID
+    findAll,findByID,createUser,updateUser,deleteUser
   };
